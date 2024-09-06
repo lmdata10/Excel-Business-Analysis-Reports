@@ -70,11 +70,11 @@ The goal of these projects is to apply Excel techniques to real-world scenarios,
 - **Key Features**:
   - **Data Visualization**: Create a dynamic dashboard summarizing key financial metrics such as Discounts, COGS (Cost of Goods Sold), Average Net Invoice Sales, Gross Margin, and Financial Targets using Excel formulas.
   - **Formulas Used**:
-  - SUMIFS() for calculating Net Sales.
-  - Gross Margin = (Net Sales - COGS) / Net Sales.
-  - Price Post Discount = Original Price - Discount Amount.
-  - Net Sales = Price Post Discount * Quantity Sold.
-  - Target = (Gross Margin / Target Gross Margin) * 100.
+      - SUMIFS() for calculating Net Sales.
+      - Gross Margin = (Net Sales - COGS) / Net Sales.
+      - Price Post Discount = Original Price - Discount Amount.
+      - Net Sales = Price Post Discount * Quantity Sold.
+      - Target = (Gross Margin / Target Gross Margin) * 100.
   
   - **Scenario Analysis**: Perform scenario-based comparisons (Best Case, Realistic Case, and Worst Case) to analyze various discounting strategies and their impact on financial goals. This allows the identification of trends, risks, and opportunities for more informed decision-making.
 
