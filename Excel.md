@@ -49,22 +49,22 @@
 - **Market Share**: The revenue contribution of a particular industry to the overall market value.
 - **Target**: Estimated revenue for a particular time period.
 - Use conditional formatting to highlight values that are above or below a certain threshold.
-- Mean - Synonym for Average.
-- Median - Middle value of a dataset when it is ordered in ascending order.
+- **Mean** - Synonym for Average.
+- **Median** - Middle value of a dataset when it is ordered in ascending order.
 - If the dataset has an even number of values, the median is the average of the two middle values.
-- Mode - Most frequently occurring data value.
-- Variance is a measure of how spread out a distribution is. It is calculated as the average of the squared differences from the mean.
-- The smaller the variance, the less spread out the data is. Conversely, the larger the variance, the more spread out the data is.
+- **Mode** - Most frequently occurring data value.
+- **Variance** is a measure of how spread out a distribution is. It is calculated as the average of the squared differences from the mean.
+  - The smaller the variance, the less spread out the data is. Conversely, the larger the variance, the more spread out the data is.
 - Standard deviation is a measure of the amount of variation or dispersion of a set of values. It is calculated as the square root of the variance.
-- The smaller the standard deviation, the closer the data points are to the mean. Conversely, the larger the standard deviation, the more spread out the data points are.
-- **[!NOTE]** The stock market's volatility is the best use case for variance and standard deviation.
-- Correlation is a statistical measure that shows the degree to which two variables are related.
-- A correlation coefficient can range from -1 to 1: -1 (perfect negative correlation) < 0 (no correlation) < 1 (perfect positive correlation).
+  - The smaller the standard deviation, the closer the data points are to the mean. Conversely, the larger the standard deviation, the more spread out the data points are.
+- **NOTE** The stock market's volatility is the best use case for variance and standard deviation.
+- **Correlation** is a statistical measure that shows the degree to which two variables are related.
+  - A correlation coefficient can range from -1 to 1: -1 (perfect negative correlation) < 0 (no correlation) < 1 (perfect positive correlation).
 
 # Data Transformation using Power Query
 - Power Query simplifies data cleaning and transformation compared to using Excel formulas.
 - Power Query uses M-language internally for all the steps performed using the UI controls.
-- **[!NOTE]** It is advisable to give meaningful names to the transformation steps in Power Query.
+- **NOTE:** It is advisable to give meaningful names to the transformation steps in Power Query.
 - In Power Query, you can perform various types of joins between tables based on your specific requirements.
 - To quickly check the quality status of columns, use the "view" option.
 - **Unique** values are values that appear only once in the data.
@@ -112,19 +112,19 @@
 - The syntax for the `ROUNDUP()` function is: `ROUNDUP(number, num_digits)`.
 
 # Cheatsheet
-**[!NOTE] LOOKUP Functions**
+**LOOKUP Functions**
 - `VLOOKUP()`: Used to search for a value in the first column of a range and return a value in the same row from another column.
 - `HLOOKUP()`: Horizontal lookup for data arranged horizontally.
 - `INDEX() & MATCH()`: More flexible and powerful alternative to VLOOKUP, allowing for dynamic row/column lookups.
 - `XLOOKUP()`: Combines the functionalities of VLOOKUP, HLOOKUP, and INDEX/MATCH.
 
-**[!NOTE] Statistical Functions**
+**Statistical Functions**
 - `AVERAGE()`, `MEDIAN()`, `MODE()`: Basic statistical functions.
 - `STDEV.P()`, `STDEV.S()`: Standard deviation for population and sample.
 - `COUNT()`, `COUNTA()`, `COUNTBLANK()`: Counting functions for non-empty, empty, and blank cells.
 - `COUNTIF()`, `COUNTIFS()`: Count cells that meet one or multiple criteria.
 
-**[!NOTE] Text Functions**
+**Text Functions**
 - `LEFT()`, `RIGHT()`, `MID()`: Extract substrings from text.
 - `LEN()`: Count the number of characters in a string.
 - `TRIM()`: Remove extra spaces from text.
@@ -132,32 +132,32 @@
 - `TEXT()`: Format numbers as text within a string.
 - `FIND()`, `SEARCH()`: Locate the position of a substring within a text.
 
-**[!NOTE] Date and Time Functions**
+**Date and Time Functions**
 - `TODAY()`, `NOW()`: Current date and time.
 - `DATE()`, `TIME()`, `YEAR()`, `MONTH()`, `DAY()`, `HOUR()`, `MINUTE()`, `SECOND()`: Deconstruct and manipulate date/time values.
 - `DATEDIF()`: Calculate the difference between two dates.
 - `NETWORKDAYS()`, `WORKDAY()`: Calculate the number of working days or determine a future/past workday.
 
-**[!NOTE] Logical Functions**
+**Logical Functions**
 - `IF()`: Basic logical test.
 - `IFS()`: Multiple conditions.
 - `AND()`, `OR()`, `NOT()`: Combine multiple logical tests.
 - `IFERROR()`, `IFNA()`: Error handling functions.
 
-**[!NOTE] Mathematical Functions**
+**Mathematical Functions**
 - `SUM()`, `SUMIF()`, `SUMIFS()`: Summing functions with or without conditions.
 - `PRODUCT()`: Multiply a range of numbers.
 - `ROUND()`, `ROUNDUP()`, `ROUNDDOWN()`: Control the precision of numerical results.
 - `ABS()`: Return the absolute value.
 - `RANDBETWEEN()`: Generate random numbers within a range.
 
-**[!NOTE] Data Analysis Functions**
-- PIVOT TABLES: Summarize large datasets dynamically.
-- SLICER: Visual filtering in pivot tables and charts.
+**Data Analysis Functions**
+- `PIVOT TABLES`: Summarize large datasets dynamically.
+- `SLICER`: Visual filtering in pivot tables and charts.
 - `GETPIVOTDATA()`: Extract specific data from pivot tables.
 - `SUBTOTAL()`: Calculate subtotals in a range, considering filters.
 
-**[!NOTE] Advanced Formulas and Techniques**
+**Advanced Formulas and Techniques**
 - Array Formulas: Perform multiple calculations on one or more of the items in an array (e.g., `{=SUM(A1:A10*B1:B10)}`).
 - Conditional Formatting: Automatically format cells based on certain criteria, crucial for highlighting trends and outliers.
 - Data Validation: Create drop-down lists and ensure data integrity by setting validation rules.
@@ -165,7 +165,7 @@
 - Power Query: Automate data import, cleaning, and transformation.
 - Power Pivot: Handle large datasets, create complex relationships, and perform advanced calculations.
 
-**[!NOTE] Tips and Tricks**
+**Tips and Tricks**
 - Use Tables for Dynamic Ranges: Convert ranges to tables to automatically adjust formulas as data grows.
 - Advanced Filtering: Use advanced filters to extract specific data subsets based on complex criteria.
 - Audit Formulas: Use tools like Trace Precedents/Dependents and Evaluate Formula to debug complex formulas.
@@ -173,7 +173,7 @@
 - Combine Multiple Excel Files: Use Power Query or VBA to consolidate data from multiple workbooks automatically.
 - Quick Analysis Tool: Select data and use this tool for instant access to common analysis options like charts, pivot tables, and conditional formatting.
 
-**[!NOTE] Dashboarding and Visualization**
+**Dashboarding and Visualization**
 - Sparklines: Tiny charts within a cell to provide a quick visual summary of data trends.
 - Dynamic Charts: Create charts that automatically update as new data is added.
 - Interactive Dashboards: Combine slicers, pivot tables, and charts to create interactive dashboards.
