@@ -77,7 +77,7 @@ This project focuses on data analysis and financial reporting using Microsoft Ex
 - [DAX Function Reference](https://docs.microsoft.com/en-us/dax/dax-function-reference)
 - [Power Query M Language Reference](https://docs.microsoft.com/en-us/powerquery-m/)
 
-# LinkedIn
+## LinkedIn
 
 Connect with me on [LinkedIn](https://www.linkedin.com/in/lmahial/) and check out my [LinkedIn post](https://www.linkedin.com/posts/lmahial_excel-erate-your-sales-analysis-from-raw-activity-7247457177928437760-dcgO?utm_source=share&utm_medium=member_desktop) where I shared my learning progress.
 
@@ -85,3 +85,5 @@ Connect with me on [LinkedIn](https://www.linkedin.com/in/lmahial/) and check ou
 ## Blog Post
 
 For an in-depth breakdown of the project, check out my detailed articles [Excel-erate Your Sales Analysis](https://tddbylm.hashnode.dev/excel-erate-your-sales-analysis-from-raw-data-to-actionable-insights) and [Excel-erate Your Finance Analysis](https://tddbylm.hashnode.dev/excel-erate-your-finance-analysis-from-sales-to-pl), where I cover the challenges, data modeling techniques, and key visuals used to bring this dashboard to life.
+
+©2024 The Data Diary
