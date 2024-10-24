@@ -84,6 +84,6 @@ Connect with me on [LinkedIn](https://www.linkedin.com/in/lmahial/) and check ou
 
 ## Blog Post
 
-For an in-depth breakdown of the project, check out my detailed articles [Excel-erate Your Sales Analysis](https://tddbylm.hashnode.dev/excel-erate-your-sales-analysis-from-raw-data-to-actionable-insights) and [Excel-erate Your Finance Analysis](https://tddbylm.hashnode.dev/excel-erate-your-finance-analysis-from-sales-to-pl), where I cover the challenges, data modeling techniques, and key visuals used to bring this dashboard to life.
+For an in-depth breakdown of the project, check out my detailed articles [Excel-erate Your Sales Analysis](https://digitndreams.hashnode.dev/excel-erate-your-sales-analysis-from-raw-data-to-actionable-insights) and [Excel-erate Your Finance Analysis](https://digitndreams.hashnode.dev/excel-erate-your-finance-analysis-from-sales-to-pl), where I cover the challenges, data modeling techniques, and key visuals used to bring this dashboard to life.
 
 ©2024 The Data Diary
