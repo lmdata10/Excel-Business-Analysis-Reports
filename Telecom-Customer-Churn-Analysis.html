@@ -1,0 +1,691 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>📊 Telecom Customer Churn Analysis</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray {
+	color: rgba(115, 114, 110, 1);
+	fill: rgba(115, 114, 110, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(205, 60, 58, 1);
+	fill: rgba(205, 60, 58, 1);
+}
+.highlight-default_background {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.highlight-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(115, 114, 110, 1);
+	fill: rgba(115, 114, 110, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(205, 60, 58, 1);
+	fill: rgba(205, 60, 58, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.block-color-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 99, 174, 0.172); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1eb05f5f-eb99-8070-81da-d4111b3f5e99" class="page sans"><header><img class="page-cover-image" src="%F0%9F%93%8A%20Telecom%20Customer%20Churn%20Analysis%201eb05f5feb99807081dad4111b3f5e99/05-telecom-argentina-2896943768.jpg" style="object-position:center 53.61%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="%F0%9F%93%8A%20Telecom%20Customer%20Churn%20Analysis%201eb05f5feb99807081dad4111b3f5e99/iphone.svg"/></div><h1 class="page-title">📊 Telecom Customer Churn Analysis</h1><p class="page-description"></p><table class="properties"><tbody><tr class="property-row property-row-text"><th><span class="icon property-icon"><div data-testid="/icons/description_gray.svg" style="width:14px;height:14px;flex-shrink:0;transform:scale(1.2);mask:url(/icons/description_gray.svg?mode=light) no-repeat center;-webkit-mask:url(/icons/description_gray.svg?mode=light) no-repeat center;background-color:rgba(71, 70, 68, 0.6);fill:rgba(71, 70, 68, 0.6)"></div></span>Description</th><td>This project explores customer churn at <strong>Maven Communications</strong>, a California-based telecom company. Using a real-world dataset, I analyzed service usage patterns, churn behaviour, and customer segmentation to uncover <strong>key insights for improving retention</strong>. </td></tr><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><div data-testid="/icons/list_gray.svg" style="width:14px;height:14px;flex-shrink:0;transform:scale(1.2);mask:url(/icons/list_gray.svg?mode=light) no-repeat center;-webkit-mask:url(/icons/list_gray.svg?mode=light) no-repeat center;background-color:rgba(71, 70, 68, 0.6);fill:rgba(71, 70, 68, 0.6)"></div></span>Skills</th><td><span class="selected-value select-value-color-brown">Analysis</span><span class="selected-value select-value-color-green">Data Storytelling</span><span class="selected-value select-value-color-green">Google Sheets</span><span class="selected-value select-value-color-purple">Visualization</span></td></tr><tr class="property-row property-row-select"><th><span class="icon property-icon"><div data-testid="/icons/arrow-circle-down_gray.svg" style="width:14px;height:14px;flex-shrink:0;transform:scale(1.2);mask:url(/icons/arrow-circle-down_gray.svg?mode=light) no-repeat center;-webkit-mask:url(/icons/arrow-circle-down_gray.svg?mode=light) no-repeat center;background-color:rgba(71, 70, 68, 0.6);fill:rgba(71, 70, 68, 0.6)"></div></span>Select</th><td><span class="selected-value select-value-color-blue">Featured</span></td></tr></tbody></table></header><div class="page-body"><div id="20205f5f-eb99-8032-84f0-f4acab30e0bf" class="column-list"><div id="20205f5f-eb99-801a-bb80-e752087c0467" style="width:100%" class="column"></div><div id="20205f5f-eb99-801a-ab32-d8af296f77d7" style="width:100%" class="column"></div><div id="20205f5f-eb99-8051-8aac-e112e1184bf6" style="width:100%" class="column"></div></div><hr id="20205f5f-eb99-80e7-9393-ee442798b50d"/><p id="1f205f5f-eb99-801d-b2e5-d32a981e7aca" class=""><mark class="highlight-purple"><code><strong>📌 Please toggle ➡️ the arrow to reveal the content for further exploration</strong></code></mark></p><p id="1eb05f5f-eb99-81ec-98b9-f69883015c82" class=""><em><mark class="highlight-blue">By Limesh Mahial</mark></em></p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="1f205f5f-eb99-800b-bb4d-fa86b33cf83c"><div style="width:100%"><h2 id="1eb05f5f-eb99-8006-92b3-c2481180ee1a" class="block-color-default_background">Executive Summary</h2><p id="1eb05f5f-eb99-8074-b34a-e3bc64222ecc" class="">This project explores customer churn at <strong>Maven Communications</strong>, a California-based telecom company. Using a real-world dataset, I analyzed service usage patterns, churn behaviour, and customer segmentation to uncover <strong>key insights for improving retention</strong>. The analysis reveals that:</p><ul id="1eb05f5f-eb99-80ff-b1c5-fd968950c69e" class="bulleted-list"><li style="list-style-type:disc"><strong>26.5% of customers churn</strong>, with churn rates highest among those on <strong>Month-to-Month contracts</strong>.</li></ul><ul id="1eb05f5f-eb99-8053-8ef9-c006f6a3d626" class="bulleted-list"><li style="list-style-type:disc">Customers <strong>without Online Security</strong> are nearly <strong>3x more likely</strong> to churn.</li></ul><ul id="1eb05f5f-eb99-8093-b5cb-de2015092445" class="bulleted-list"><li style="list-style-type:disc">The <strong>first month</strong> is a critical point for churn; many customers leave shortly after joining.</li></ul></div></figure><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">🎯Objective</summary><div class="indented"><p id="1eb05f5f-eb99-8099-a846-c988b050fe00" class="">You are hired at Maven Communications, a California-based Telecommunications company, as a data analyst. Your goal is to gain insight on the proportion of customers who cancel their services with the company. Cancellation is also sometimes known as churn. By studying cancellation risks, the company can improve retention. Understand what drives customer churn, uncover risk patterns, and offer data-backed recommendations to help Maven Communications <strong>retain more customers</strong>.</p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Dataset</summary><div class="indented"><p id="1eb05f5f-eb99-8015-8916-d300c467b7b3" class=""><strong>Source:</strong> <code><a href="https://www.mavenanalytics.io/data-playground?page=8&amp;pageSize=5">Telecom Customer Churn</a></code></p><p id="1eb05f5f-eb99-8095-b95d-c7497b489e46" class="block-color-gray"><a href="https://www.mavenanalytics.io/data-playground?page=5&amp;pageSize=10">https://www.mavenanalytics.io/data-playground?page=5&amp;pageSize=10</a></p><p id="1eb05f5f-eb99-8073-8430-e741491dee93" class=""><strong>Rows:</strong> 7,043 customers</p><p id="1eb05f5f-eb99-8023-94af-d4990015e573" class=""><strong>Type:</strong> Cross-sectional</p><p id="1eb05f5f-eb99-8099-9c00-ef26233d6597" class="">Churn data for a fictional Telecommunications company that provides phone and internet services to 7,043 customers in California, and includes details about customer demographics, location, services, and current status</p><p id="1eb05f5f-eb99-80aa-a3ca-f9667702334b" class="">Every row (observation) in the dataset represents one customer and the columns (features) are:</p><table id="1eb05f5f-eb99-80d0-8f67-f395cf68c623" class="simple-table"><tbody><tr id="1eb05f5f-eb99-80ce-920c-e93ce6f4a2d8"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-brown"><mark class="highlight-default_background"><strong>Column</strong></mark></mark></th><td id="VVp^" class="block-color-default_background" style="width:541.2431030273438px"><mark class="highlight-brown"><strong>Description</strong></mark></td></tr><tr id="1eb05f5f-eb99-80db-87a4-e6a6c81d9ca7"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Customer ID</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">A unique ID that identifies each customer</td></tr><tr id="1eb05f5f-eb99-8047-9609-c7a566e17b06"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Gender</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">The customer&#x27;s gender: Male, Female</td></tr><tr id="1eb05f5f-eb99-8028-a14d-de7bf55f0142"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Age</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">The customer&#x27;s current age, in years, at the time the fiscal quarter ended</td></tr><tr id="1eb05f5f-eb99-80c5-a050-f6c859a264be"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Married</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Indicates if the customer is married: Yes, N</td></tr><tr id="1eb05f5f-eb99-80e9-a669-f4d1f999b167"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Number of Dependents</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Number of dependents living with the customer (e.g., children, parents)</td></tr><tr id="1eb05f5f-eb99-8082-999d-c4f2a788971b"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>City</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Name of the city where the customer resides, based on their registered address</td></tr><tr id="1eb05f5f-eb99-8063-a6ca-c27eb3e6825d"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Number of Referrals</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Number of times the customer referred someone to the company</td></tr><tr id="1eb05f5f-eb99-8096-9afa-cdbfcdc3d2df"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Tenure in Months</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Total number of months the customer has been with the company by quarter end</td></tr><tr id="1eb05f5f-eb99-8025-92e3-f257083d6b72"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Offer</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Last marketing offer accepted: None, Offer A–E</td></tr><tr id="1eb05f5f-eb99-808b-aa97-fa7c97f121a7"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Phone Service</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Indicates home phone subscription: Yes, No</td></tr><tr id="1eb05f5f-eb99-8055-b9c4-c10b6cee8714"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Avg Monthly Long Distance Charges</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Customer&#x27;s average long distance charges to date</td></tr><tr id="1eb05f5f-eb99-80cb-861c-d91e71f8f370"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Multiple Lines</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Indicates multiple phone line subscription: Yes, No (No if no phone service)</td></tr><tr id="1eb05f5f-eb99-80f9-a741-ea6322571737"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Internet Service</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Indicates Internet subscription: Yes, No</td></tr><tr id="1eb05f5f-eb99-804e-bfac-e57cb8f4a63b"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Internet Type</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Type of internet: DSL, Fiber Optic, Cable, None</td></tr><tr id="1eb05f5f-eb99-804e-97a4-d8760ffef320"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Avg Monthly GB Download</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Average GB download per month (0 if no internet service)</td></tr><tr id="1eb05f5f-eb99-803a-977e-f8048f675f92"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Online Security</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Subscribed to online security service: Yes, No (No if no internet service)</td></tr><tr id="1eb05f5f-eb99-8033-bec1-ec4930a51195"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Online Backup</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Subscribed to online backup service: Yes, No (No if no internet service)</td></tr><tr id="1eb05f5f-eb99-8019-b506-d5d9c203e2cf"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Device Protection Plan</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Subscribed to device protection: Yes, No (No if no internet service)</td></tr><tr id="1eb05f5f-eb99-8063-89f0-e76281a8decf"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Premium Tech Support</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Subscribed to tech support plan: Yes, No (No if no internet service)</td></tr><tr id="1eb05f5f-eb99-802f-995d-c7ee2a745c94"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Streaming TV</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Uses internet to stream TV: Yes, No (No if no internet service)</td></tr><tr id="1eb05f5f-eb99-80c0-a997-c96fa9f2ced8"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Streaming Movies</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Uses internet to stream movies: Yes, No (No if no internet service)</td></tr><tr id="1eb05f5f-eb99-801b-8b91-eed6a04d9497"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Streaming Music</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Uses internet to stream music: Yes, No (No if no internet service)</td></tr><tr id="1eb05f5f-eb99-80b0-8439-c14da991725c"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Unlimited Data</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Has unlimited data plan: Yes, No (No if no internet service)</td></tr><tr id="1eb05f5f-eb99-805e-9e01-c349283942ec"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Contract</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Current contract type: Month-to-Month, One Year, Two Year</td></tr><tr id="1eb05f5f-eb99-805c-ad3c-ecdb3034021b"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Paperless Billing</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Chosen paperless billing: Yes, No</td></tr><tr id="1eb05f5f-eb99-80a0-8648-cb183dcd88c7"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Payment Method</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Payment method: Bank Withdrawal, Credit Card, Mailed Check</td></tr><tr id="1eb05f5f-eb99-802a-a721-d1acc7321158"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Monthly Charge</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Current total monthly charge for services</td></tr><tr id="1eb05f5f-eb99-80c1-af79-f8438d12ca32"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Total Charges</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Total charges to date</td></tr><tr id="1eb05f5f-eb99-8099-89a4-d2989f3f7c9d"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Total Refunds</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Total refunds to date</td></tr><tr id="1eb05f5f-eb99-8019-b4d4-f958a396f2fc"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Total Extra Data Charges</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Total charges for extra data beyond the plan</td></tr><tr id="1eb05f5f-eb99-800e-b6bc-c7e0beaf5d4c"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Total Long Distance Charges</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Total long distance charges beyond the plan</td></tr><tr id="1eb05f5f-eb99-8024-92ed-f303821e55c3"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Total Revenue</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Company’s total revenue from the customer (Charges - Refunds + Extras)</td></tr><tr id="1eb05f5f-eb99-801e-a9eb-d1c84bcdc00e"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Customer Status</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Status at the end of the quarter: Churned, Stayed, Joined</td></tr><tr id="1eb05f5f-eb99-8063-85f4-d39b59a7fb0e"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Churn Category</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Broad reason for churning: Attitude, Competitor, etc.</td></tr><tr id="1eb05f5f-eb99-8093-8e79-f7695b3cb4f2"><th id=":i^F" class="block-color-default_background simple-table-header"><mark class="highlight-default"><code>Churn Reason</code></mark></th><td id="VVp^" class="" style="width:541.2431030273438px">Specific reason for leaving (tied to Churn Category)</td></tr></tbody></table><h3 id="1eb05f5f-eb99-8072-a6a7-cab022ddfc99" class="">Columns Generated to Support Analysis</h3><table id="1eb05f5f-eb99-8029-b296-d61e14903d8e" class="simple-table"><tbody><tr id="1eb05f5f-eb99-80ce-85f8-e1d96a2cfc4a"><td id=":\TJ" class="block-color-brown"><strong>Column</strong></td><td id="xtct" class="block-color-brown" style="width:522.6146240234375px"><strong>Formula</strong></td></tr><tr id="1eb05f5f-eb99-8028-9ee3-e48eade99ca6"><td id=":\TJ" class="">Churned</td><td id="xtct" class="" style="width:522.6146240234375px"><mark class="highlight-default"><code>=IF(Status=&quot;Churned&quot;, DIVIDE(Revenue,tenure),&quot;&quot;)</code></mark></td></tr><tr id="1eb05f5f-eb99-8018-80ae-e2e4cc3e027e"><td id=":\TJ" class="">Stayed</td><td id="xtct" class="" style="width:522.6146240234375px"><mark class="highlight-default"><code>=IF(Status=&quot;stayed&quot;, DIVIDE(Revenue,tenure),&quot;&quot;)</code></mark></td></tr><tr id="1eb05f5f-eb99-801b-b952-e08e2918de7a"><td id=":\TJ" class="">Most Common Churn Reason</td><td id="xtct" class="" style="width:522.6146240234375px"><mark class="highlight-default"><code>=IF(Churn_reason=&quot;Competitor had better devices&quot;, Revenue/tenure, &quot;&quot;)</code></mark></td></tr><tr id="1eb05f5f-eb99-8000-8ff5-f6d4354cd006"><td id=":\TJ" class="">Second Common Churn Reason</td><td id="xtct" class="" style="width:522.6146240234375px"><mark class="highlight-default"><code>=IF(Churn_reason=&quot;Competitor made better offer&quot;, Revenue/tenure, &quot;&quot;)</code></mark></td></tr><tr id="1eb05f5f-eb99-8040-8b5a-fe95b85aa5ee"><td id=":\TJ" class="">Third Common Churn Reason</td><td id="xtct" class="" style="width:522.6146240234375px"><mark class="highlight-default"><code>=IF(Churn_reason=&quot;Attitude of support person&quot;, Revenue/tenure, &quot;&quot;)</code></mark></td></tr></tbody></table></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Data questions</summary><div class="indented"><ol type="1" id="1eb05f5f-eb99-802f-9e65-cf26c4662603" class="numbered-list" start="1"><li><strong>How many rows are there in the dataset?</strong><ul id="1eb05f5f-eb99-8068-a23f-f7f9ce52ccb1" class="bulleted-list"><li style="list-style-type:disc">7044</li></ul></li></ol><ol type="1" id="1eb05f5f-eb99-808e-88b0-ee4f75327664" class="numbered-list" start="2"><li><strong>Reflect on the types of each feature. How many of them are numerical</strong><ul id="1eb05f5f-eb99-8018-bd48-fda7cbe397f8" class="bulleted-list"><li style="list-style-type:disc">12 numerical features</li></ul><ul id="1eb05f5f-eb99-801e-8d29-cd241c7cb22c" class="bulleted-list"><li style="list-style-type:disc">Numerical features are columns where the values are quantities you can perform math on; like addition, averages, or comparisons.</li></ul></li></ol><ol type="1" id="1eb05f5f-eb99-80ef-b524-ccac7617f806" class="numbered-list" start="3"><li><strong>How many features are categorical?</strong><ul id="1eb05f5f-eb99-80c1-b99d-ff30fb89a104" class="bulleted-list"><li style="list-style-type:disc">24 categorical features</li></ul><ul id="1eb05f5f-eb99-8055-af39-d07e65fb84e8" class="bulleted-list"><li style="list-style-type:disc">Categorical features are columns where Values belong to a fixed set of categories or options. They are labels, not quantities, we can’t do math on them.</li></ul></li></ol><ol type="1" id="1eb05f5f-eb99-807d-9ecb-e222bd721648" class="numbered-list" start="4"><li><strong>Is this dataset time series or cross sectional data?</strong><ul id="1eb05f5f-eb99-80ff-a12a-e029a567915a" class="bulleted-list"><li style="list-style-type:disc">Cross-sectional data</li></ul><ul id="1eb05f5f-eb99-80f3-a37a-ed7286ff39ee" class="bulleted-list"><li style="list-style-type:disc">This is cross-sectional data since it captures a snapshot of each customer at a point in time, not over time.</li></ul></li></ol></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Metrics</summary><div class="indented"><ol type="1" id="1eb05f5f-eb99-8012-b6a4-ebdff556b800" class="numbered-list" start="1"><li><strong>What is the percentage of all customers who churned?</strong><ul id="1eb05f5f-eb99-8089-8eee-ebb5dee9d980" class="bulleted-list"><li style="list-style-type:disc">26.54%</li></ul><ul id="1eb05f5f-eb99-80fa-9af8-e8de822b7cca" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-default"><code>=COUNTIF(Status,&quot;Churned&quot;)/COUNTA(Customer_ID)</code></mark></li></ul></li></ol><ol type="1" id="1eb05f5f-eb99-80aa-92a9-f58e3fe8b293" class="numbered-list" start="2"><li><strong>Which contract duration has the highest total number of churns?</strong><ul id="1eb05f5f-eb99-808e-9f10-eb31f58e4b50" class="bulleted-list"><li style="list-style-type:disc">Month-to-Month</li></ul></li></ol><table id="1eb05f5f-eb99-80b3-b298-ced261dc55cb" class="simple-table"><thead class="simple-table-header"><tr id="1eb05f5f-eb99-80d9-99f2-dc6fe6c269a3"><th id="rJpr" class="block-color-brown simple-table-header"><strong>Contract</strong></th><th id="Yt?o" class="block-color-brown simple-table-header"><strong>Number of churns</strong></th><th id="[ZdF" class="block-color-brown simple-table-header" style="width:322.1111145019531px"><strong>Formula</strong></th></tr></thead><tbody><tr id="1eb05f5f-eb99-80a2-a306-c51c39e7552f"><td id="rJpr" class="">One Year</td><td id="Yt?o" class="">166</td><td id="[ZdF" class="" style="width:322.1111145019531px"><mark class="highlight-default"><code>=COUNTIFS(Status,&quot;=Churned&quot;, contract,B20</code></mark></td></tr><tr id="1eb05f5f-eb99-803a-8bb6-ccbba428ec02"><td id="rJpr" class="">Two Year</td><td id="Yt?o" class="">48</td><td id="[ZdF" class="" style="width:322.1111145019531px"><mark class="highlight-default"><code>=COUNTIFS(Status,&quot;=Churned&quot;, contract,B21</code></mark></td></tr><tr id="1eb05f5f-eb99-80eb-ae0b-e9b540ffd428"><td id="rJpr" class="">Month-to-Month</td><td id="Yt?o" class="">1655</td><td id="[ZdF" class="" style="width:322.1111145019531px"><mark class="highlight-default"><code>=COUNTIFS(Status,&quot;=Churned&quot;, contract,B22</code></mark></td></tr><tr id="1eb05f5f-eb99-8004-b0b0-c2ee7babe474"><td id="rJpr" class="">Total</td><td id="Yt?o" class="">1869</td><td id="[ZdF" class="" style="width:322.1111145019531px"><mark class="highlight-default"><code>=SUM(C20:C22)</code></mark><mark class="highlight-default"> </mark></td></tr></tbody></table><ol type="1" id="1eb05f5f-eb99-806f-ba74-d910a12fb74f" class="numbered-list" start="3"><li><strong>Which offer type (including &quot;None&quot;) has the highest total number of churns?</strong><ul id="1eb05f5f-eb99-802f-87c1-d9258b637853" class="bulleted-list"><li style="list-style-type:disc">None</li></ul></li></ol><table id="1eb05f5f-eb99-803d-8a45-ea78a1c39969" class="simple-table"><tbody><tr id="1eb05f5f-eb99-80a5-987f-c90b3a3c6971"><td id="GzOj" class="block-color-brown"><strong>Offer</strong></td><td id="rNed" class="block-color-brown"><strong>Number of Churns</strong></td><td id="Um=j" class="block-color-brown" style="width:300.6267395019531px"><strong>Formula</strong></td></tr><tr id="1eb05f5f-eb99-8017-907e-fbd1b38fa906"><td id="GzOj" class="">None</td><td id="rNed" class="">1051</td><td id="Um=j" class="" style="width:300.6267395019531px"><mark class="highlight-default"><code>=COUNTIFS(Status,&quot;=Churned&quot;,Offer,B26)</code></mark></td></tr><tr id="1eb05f5f-eb99-8013-9c22-cb6ed86d27a1"><td id="GzOj" class="">Offer A</td><td id="rNed" class="">35</td><td id="Um=j" class="" style="width:300.6267395019531px"><mark class="highlight-default"><code>=COUNTIFS(Status,&quot;=Churned&quot;,Offer,B27)</code></mark></td></tr><tr id="1eb05f5f-eb99-80fe-a14e-e90f9db045a9"><td id="GzOj" class="">Offer B</td><td id="rNed" class="">101</td><td id="Um=j" class="" style="width:300.6267395019531px"><mark class="highlight-default"><code>=COUNTIFS(Status,&quot;=Churned&quot;,Offer,B28)</code></mark></td></tr><tr id="1eb05f5f-eb99-80c8-94be-c1c01f4bdc18"><td id="GzOj" class="">Offer C</td><td id="rNed" class="">95</td><td id="Um=j" class="" style="width:300.6267395019531px"><mark class="highlight-default"><code>=COUNTIFS(Status,&quot;=Churned&quot;,Offer,B29)</code></mark></td></tr><tr id="1eb05f5f-eb99-8007-ad07-ef0051ae845c"><td id="GzOj" class="">Offer D</td><td id="rNed" class="">161</td><td id="Um=j" class="" style="width:300.6267395019531px"><mark class="highlight-default"><code>=COUNTIFS(Status,&quot;=Churned&quot;,Offer,B30)</code></mark></td></tr><tr id="1eb05f5f-eb99-8062-87a5-e687b133782b"><td id="GzOj" class="">Offer E</td><td id="rNed" class="">426</td><td id="Um=j" class="" style="width:300.6267395019531px"><mark class="highlight-default"><code>=COUNTIFS(Status,&quot;=Churned&quot;,Offer,B31)</code></mark></td></tr></tbody></table><ol type="1" id="1eb05f5f-eb99-8072-8c80-dc38e977f50e" class="numbered-list" start="4"><li><strong>Which offer type (including &quot;None&quot;) has the highest total proportion of churns?</strong><ul id="1eb05f5f-eb99-80d1-8cd6-fc94b2601fe7" class="bulleted-list"><li style="list-style-type:disc">Offer E</li></ul></li></ol><table id="1eb05f5f-eb99-803a-8304-c2b5898dd047" class="simple-table"><tbody><tr id="1eb05f5f-eb99-80d0-8e2e-e1d3d66e9a2f"><td id="DqPn" class="block-color-brown"><strong>Offer</strong></td><td id="U}R[" class="block-color-brown"><strong>Proportion of churns</strong></td><td id="h?Wn" class="block-color-brown" style="width:551.2604370117188px"><strong>Formula (Number of Churns by Total number of customer)</strong></td></tr><tr id="1eb05f5f-eb99-8008-ac77-f91d73f6cecc"><td id="DqPn" class="">None</td><td id="U}R[" class="">27.1%</td><td id="h?Wn" class="" style="width:551.2604370117188px"><mark class="highlight-default"><code>=DIVIDE(Number of Churn (None), COUNTUNIQUEIFS(Customer_ID,Offer,B34))</code></mark></td></tr><tr id="1eb05f5f-eb99-8024-a06c-fd92a3bc7fd3"><td id="DqPn" class="">Offer A</td><td id="U}R[" class="">6.7%</td><td id="h?Wn" class="" style="width:551.2604370117188px"><mark class="highlight-default"><code>=DIVIDE(Number of Churn (Offer A), COUNTUNIQUEIFS(Customer_ID,Offer,B35))</code></mark></td></tr><tr id="1eb05f5f-eb99-801e-aed4-f5a60f7ec39e"><td id="DqPn" class="">Offer B</td><td id="U}R[" class="">12.3%</td><td id="h?Wn" class="" style="width:551.2604370117188px"><mark class="highlight-default"><code>=DIVIDE(Number of Churn (Offer B), COUNTUNIQUEIFS(Customer_ID,Offer,B36))</code></mark></td></tr><tr id="1eb05f5f-eb99-803f-8069-ee1e96c62e95"><td id="DqPn" class="">Offer C</td><td id="U}R[" class="">22.9%</td><td id="h?Wn" class="" style="width:551.2604370117188px"><mark class="highlight-default"><code>=DIVIDE(Number of Churn (Offer C), COUNTUNIQUEIFS(Customer_ID,Offer,B37))</code></mark></td></tr><tr id="1eb05f5f-eb99-806a-b806-f9c3e14340c3"><td id="DqPn" class="">Offer D</td><td id="U}R[" class="">26.7%</td><td id="h?Wn" class="" style="width:551.2604370117188px"><mark class="highlight-default"><code>=DIVIDE(Number of Churn (Offer D), COUNTUNIQUEIFS(Customer_ID,Offer,B38))</code></mark></td></tr><tr id="1eb05f5f-eb99-8075-9a12-ed511f1aa4ec"><td id="DqPn" class="">Offer E</td><td id="U}R[" class="">52.9%</td><td id="h?Wn" class="" style="width:551.2604370117188px"><mark class="highlight-default"><code>=DIVIDE(Number of Churn (Offer E), COUNTUNIQUEIFS(Customer_ID,Offer,B39))</code></mark></td></tr></tbody></table><ol type="1" id="1eb05f5f-eb99-80e7-8944-c5dfd2bffd83" class="numbered-list" start="5"><li><strong>What is the churn proportion for customers with Online Security?</strong><ul id="1eb05f5f-eb99-80cb-ba81-d1115dae6d3d" class="bulleted-list"><li style="list-style-type:disc">14.6% - <mark class="highlight-default"><code>=DIVIDE(COUNTIFS(Status,&quot;=Churned&quot;,online_security,B42), COUNTUNIQUEIFS(Customer_ID,online_security,B42))</code></mark></li></ul></li></ol><ol type="1" id="1eb05f5f-eb99-806f-9103-c9df95ce9ff3" class="numbered-list" start="6"><li><strong>What is the churn proportion for customers without Online Security?</strong><ul id="1eb05f5f-eb99-808b-8c45-c05401d68d97" class="bulleted-list"><li style="list-style-type:disc">41.8% - <mark class="highlight-default"><code>=DIVIDE(COUNTIFS(Status,&quot;=Churned&quot;,online_security,B43), COUNTUNIQUEIFS(Customer_ID,online_security,B43))</code></mark></li></ul></li></ol></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Visualization</summary><div class="indented"><ol type="1" id="1eb05f5f-eb99-8071-8549-e25cfcf7a27b" class="numbered-list" start="1"><li><strong>Does the number of churns generally increase or decrease as tenure increases?</strong><ul id="1eb05f5f-eb99-805a-9ee9-e127013e5dac" class="bulleted-list"><li style="list-style-type:disc">Decreases<figure id="1eb05f5f-eb99-80e1-85d0-d55b3db0e3e1" class="image"><a href="%F0%9F%93%8A%20Telecom%20Customer%20Churn%20Analysis%201eb05f5feb99807081dad4111b3f5e99/Screenshot_2025-04-23_at_10.19.35_PM.png"><img style="width:2554px" src="%F0%9F%93%8A%20Telecom%20Customer%20Churn%20Analysis%201eb05f5feb99807081dad4111b3f5e99/Screenshot_2025-04-23_at_10.19.35_PM.png"/></a></figure></li></ul><ul id="1eb05f5f-eb99-80ca-a1b0-e73a276a4831" class="bulleted-list"><li style="list-style-type:disc"><strong>High churn occurs early:</strong> The first few months, especially the <strong>first month</strong>, show a <strong>massive spike in revenue from churned customers</strong>, indicating many customers leave right after joining.</li></ul><ul id="1eb05f5f-eb99-80b7-b7be-d43306a88ef7" class="bulleted-list"><li style="list-style-type:disc"><strong>Retention pays off:</strong> Customers with longer tenure (particularly 72 months) contribute <strong>significantly higher revenue</strong>, and these are almost entirely customers who stayed.</li></ul><ul id="1eb05f5f-eb99-8015-a51a-feb32dcd5a24" class="bulleted-list"><li style="list-style-type:disc"><strong>Stable loyalty effect:</strong> After the initial drop in churn, the number of churned customers tapers off and remains low, while retained customers consistently contribute.</li></ul></li></ol><ol type="1" id="1eb05f5f-eb99-80c2-8513-eebc1cdf13b9" class="numbered-list" start="2"><li><strong>Does the average monthly revenue generally increase or decrease with the average monthly long distance charges?</strong><ul id="1eb05f5f-eb99-8057-8d24-f8a91ce819cd" class="bulleted-list"><li style="list-style-type:disc"><strong>Yes</strong>, in both groups, <strong>average monthly revenue generally increases</strong> with <strong>average monthly long distance charges</strong><figure id="1eb05f5f-eb99-8062-8889-dac766a79eb4" class="image"><a href="%F0%9F%93%8A%20Telecom%20Customer%20Churn%20Analysis%201eb05f5feb99807081dad4111b3f5e99/Screenshot_2025-04-23_at_10.23.45_PM.png"><img style="width:2338px" src="%F0%9F%93%8A%20Telecom%20Customer%20Churn%20Analysis%201eb05f5feb99807081dad4111b3f5e99/Screenshot_2025-04-23_at_10.23.45_PM.png"/></a></figure><p id="1eb05f5f-eb99-80b4-953e-f5ccb300e186" class="">🔵 <strong>Customers Who Stayed</strong></p><ul id="1eb05f5f-eb99-802b-bd1d-d7a27809803b" class="bulleted-list"><li style="list-style-type:circle"><strong>Positive correlation</strong>: As long-distance charges increase, so does revenue.</li></ul><ul id="1eb05f5f-eb99-809f-9f34-c996ac8c814a" class="bulleted-list"><li style="list-style-type:circle">Indicates that <strong>higher usage aligns with loyalty</strong> and <strong>consistent revenue generation</strong>.</li></ul><p id="1eb05f5f-eb99-8024-b220-f0143a96d6d5" class="">🟠 <strong>Customers Who Churned</strong></p><ul id="1eb05f5f-eb99-8035-a197-c01ef12356a2" class="bulleted-list"><li style="list-style-type:circle">A <strong>weaker upward trend</strong> is observed, but the data is <strong>more scattered</strong>.</li></ul><ul id="1eb05f5f-eb99-80da-8cca-e09a1b64a1d3" class="bulleted-list"><li style="list-style-type:circle"><strong>Higher variability</strong> suggests <strong>inconsistent behavior</strong> and potential <strong>billing dissatisfaction</strong>.</li></ul><ul id="1eb05f5f-eb99-8028-ad6f-da83a928b32f" class="bulleted-list"><li style="list-style-type:circle">Presence of <strong>high-charge outliers</strong> points to <strong>cost-related churn risk</strong>, especially among heavy users.</li></ul></li></ul></li></ol></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Churn Reason</summary><div class="indented"><ol type="1" id="1eb05f5f-eb99-807a-906c-f65efce6f21e" class="numbered-list" start="1"><li><strong>Which are the 3 most frequent churn reasons?</strong><ul id="1eb05f5f-eb99-801f-9ce3-df3f7796df6e" class="bulleted-list"><li style="list-style-type:disc">Competitor had better devices</li></ul><ul id="1eb05f5f-eb99-80b2-9aa3-d6c471e81613" class="bulleted-list"><li style="list-style-type:disc">Competitor made better offer</li></ul><ul id="1eb05f5f-eb99-8004-8be8-ca412e17e6c1" class="bulleted-list"><li style="list-style-type:disc">Attitude of support person<figure id="1eb05f5f-eb99-8038-a1cd-d8cee1f0f24c" class="image"><a href="%F0%9F%93%8A%20Telecom%20Customer%20Churn%20Analysis%201eb05f5feb99807081dad4111b3f5e99/Screenshot_2025-04-23_at_10.52.04_PM.png"><img style="width:934.0191650390625px" src="%F0%9F%93%8A%20Telecom%20Customer%20Churn%20Analysis%201eb05f5feb99807081dad4111b3f5e99/Screenshot_2025-04-23_at_10.52.04_PM.png"/></a></figure></li></ul></li></ol><ol type="1" id="1eb05f5f-eb99-80e1-85b9-f1921b61a00e" class="numbered-list" start="2"><li><strong>For what duration of contract is the attitude of support person the most important in terms of the percentage of lost revenue due to churn?</strong><ul id="1eb05f5f-eb99-800e-9ae1-fe0aaf595e36" class="bulleted-list"><li style="list-style-type:disc">Month-to-Month<figure id="1eb05f5f-eb99-80f9-95cb-eb463422f28b" class="image"><a href="%F0%9F%93%8A%20Telecom%20Customer%20Churn%20Analysis%201eb05f5feb99807081dad4111b3f5e99/Screenshot_2025-04-23_at_10.55.17_PM.png"><img style="width:934.0104370117188px" src="%F0%9F%93%8A%20Telecom%20Customer%20Churn%20Analysis%201eb05f5feb99807081dad4111b3f5e99/Screenshot_2025-04-23_at_10.55.17_PM.png"/></a></figure></li></ul><ul id="1eb05f5f-eb99-8090-ab8c-ccddec087b80" class="bulleted-list"><li style="list-style-type:disc"><strong>Two-Year Contracts</strong> have a <strong>higher share</strong> of revenue loss due to <strong>&quot;Competitor made better offer&quot;</strong>.</li></ul><ul id="1eb05f5f-eb99-80f4-a3f5-d8f8a0faf2d6" class="bulleted-list"><li style="list-style-type:disc"><strong>Month-to-Month Contracts</strong> show a more <strong>balanced distribution</strong> across all three churn reasons.</li></ul><ul id="1eb05f5f-eb99-8041-851a-c233f2734f09" class="bulleted-list"><li style="list-style-type:disc">The <strong>&quot;Attitude of Support Person&quot;</strong> becomes <strong>less impactful</strong> for longer-term contracts.</li></ul></li></ol></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Recommendations</summary><div class="indented"><ul id="1eb05f5f-eb99-8097-bbc7-f698b4fae6e7" class="bulleted-list"><li style="list-style-type:disc">🎯 <strong>Focus on early-stage retention</strong> - Improve onboarding and first-month experience.</li></ul><ul id="1eb05f5f-eb99-80df-a1b9-e9c095b192dd" class="bulleted-list"><li style="list-style-type:disc">🛡️ <strong>Promote Online Security</strong> - Bundle it or offer it as a free trial to reduce churn.</li></ul><ul id="1eb05f5f-eb99-80f2-b430-c7ba7f89e6b1" class="bulleted-list"><li style="list-style-type:disc">🧾 <strong>Encourage longer-term contracts</strong> - Use targeted incentives to convert Month-to-Month users.</li></ul><ul id="1eb05f5f-eb99-800d-82e9-c7ce257925d9" class="bulleted-list"><li style="list-style-type:disc">📞 <strong>Improve support quality</strong> - Train frontline staff, monitor support satisfaction.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Tools Used</summary><div class="indented"><ul id="1eb05f5f-eb99-80b8-85fc-e5bc778afb9a" class="bulleted-list"><li style="list-style-type:disc"><strong>Google Sheets</strong> – Data wrangling, formula-based analysis, and chart creation.</li></ul></div></details><hr id="1eb05f5f-eb99-8022-9ef5-c116ccf86c5e"/><div id="1eb05f5f-eb99-80fe-ac46-ebe6818e89df" class="column-list"><div id="1eb05f5f-eb99-8055-b924-d281794e5bb3" style="width:50.000000000000014%" class="column"></div><div id="1eb05f5f-eb99-80b0-af85-f100608aa65b" style="width:49.99999999999999%" class="column"><p id="1eb05f5f-eb99-806c-b27a-f8993fcf017e" class="">
+</p></div></div><p id="1eb05f5f-eb99-8090-82d8-f8401702aba6" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
