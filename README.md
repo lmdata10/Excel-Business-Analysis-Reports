@@ -1,67 +1,57 @@
-# Excel Data Analysis and Finance Project
 
-## Table of Contents
-1. [Introduction](#introduction)
-2. [Project Components](#project-components)
-3. [Key Concepts](#key-concepts)
-4. [Tools and Techniques](#tools-and-techniques)
-5. [Getting Started](#getting-started)
-6. [Data Analysis Process](#data-analysis-process)
-7. [Reports and Dashboards](#reports-and-dashboards)
-8. [Tips and Best Practices](#tips-and-best-practices)
+# AtliQ Hardware: Dynamic Sales and Finance Analytics
 
-## Introduction
+This project showcases a comprehensive **Sales and Finance Analytics** solution for AtliQ Hardware, transforming raw data into actionable insights using **Microsoft Excel's advanced features (Power Query, Power Pivot, and DAX)**. The solution establishes a dynamic reporting framework, covering key sales performance indicators and a full Profit and Loss (P&L) statement.
 
-This project focuses on data analysis and financial reporting using Microsoft Excel. It covers various aspects of data manipulation, analysis, and visualization, with a special emphasis on sales and finance analytics.
+---
 
 ## Project Components
 
-- Sales Analytics
-- Finance Analytics
-- Business Maths & Statistics
-- Data Transformation using Power Query
-- Business Reports using Pivot Tables & Power Pivot
+The project is structured around two main pillars of business intelligence:
 
-## Key Concepts
+* **Sales Performance Analysis:** Tracking Net Sales, Year-on-Year Growth, and performance against sales targets.
+* **Finance & P&L Analysis:** Incorporating costs (`freight_cost`, `manufacturing_cost`) to generate Gross Margin and a detailed P&L statement.
+* **Data Transformation:** ETL process using **Power Query**.
+* **Data Modeling:** Implementation of the **Star Schema** in **Power Pivot**.
+* **Customization:** Creation of a custom **September-August Fiscal Calendar**.
 
-- ETL (Extract, Transform, Load)
-- Data Cleaning and Modeling
-- P&L (Profit and Loss) Statements
-- KPIs (Key Performance Indicators)
-- Statistical Measures (Mean, Median, Mode, Variance, Standard Deviation)
-- Correlation Analysis
+---
 
-## Tools and Techniques
+## 🛠 Tools and Techniques
 
-- Excel Formulas and Functions
-- Power Query
-- Power Pivot
-- DAX (Data Analysis Expressions)
-- Pivot Tables
-- Conditional Formatting
-- Data Visualization
+| Tool/Language | Technique | Application |
+| :--- | :--- | :--- |
+| **Microsoft Excel** | **Power Query** (M Language) | Data Extraction, Transformation, and Cleaning (ETL). |
+| **Power Pivot** | **Data Modeling** (Star Schema) | Creating relationships between fact and dimension tables. |
+| **DAX** (Data Analysis Expressions) | **Measures & KPIs** | Calculating dynamic metrics like **Net Sales**, **Gross Margin %**, and **Year-over-Year Growth**. |
+| **Excel** | **Pivot Tables & Conditional Formatting** | Designing professional, visually engaging reports and dashboards. |
 
-## Getting Started
+---
 
-1. Ensure you have Microsoft Excel installed (preferably a recent version with Power Query and Power Pivot).
-2. Download the project files and open the main workbook.
-3. Familiarize yourself with the data structure and the different sheets in the workbook.
+## 📊 Key Business Insights & Reports
 
-## Data Analysis Process
+The reports developed provide immediate, actionable intelligence to stakeholders:
 
-1. Data Import and Cleaning using Power Query
-2. Data Modeling and Relationship Creation
-3. Creating Calculated Columns and Measures using DAX
-4. Building Pivot Tables for Data Summarization
-5. Designing Dashboards and Reports
+### Sales Analysis Reports
+* **Sales vs. Target Report:** Performance comparison against 2021 sales targets.
+* **Growth Insights:** Identification of **Top 10 Products** by growth (2020 vs. 2021) and analysis of performance by **Division** and **Country**.
 
-## Reports and Dashboards
+### Financial P&L Reports
+* **P&L by Fiscal Year:** Comprehensive view of financial health (2019, 2020, 2021).
+* **P&L by Quarter/Month:** Detailed profitability analysis aligned to AtliQ's custom fiscal calendar.
+* **Market Profitability:** **Gross Margin %** analysis by **Markets** and **Sub Zones**.
 
-- P&L by Fiscal Year
-- Sales Performance by Product/Market
-- Financial Metrics Analysis
-- Market Share Analysis
+---
 
+## 💡 Key Concepts Applied
+
+* **ETL (Extract, Transform, Load)**
+* **Data Cleaning and Modeling**
+* **P&L (Profit and Loss) Statements**
+* **KPIs (Key Performance Indicators)**
+* **Custom Fiscal Calendar Creation**
+
+---
 ## Tips and Best Practices
 
 - Always start with data cleaning and validation
@@ -73,17 +63,12 @@ This project focuses on data analysis and financial reporting using Microsoft Ex
 
 ## Resources
 
-- [Excel Function Reference](https://support.microsoft.com/en-us/office/excel-functions-alphabetical-b3944572-255d-4efb-bb96-c6d90033e188)
-- [DAX Function Reference](https://docs.microsoft.com/en-us/dax/dax-function-reference)
-- [Power Query M Language Reference](https://docs.microsoft.com/en-us/powerquery-m/)
-
-## LinkedIn
-
-Connect with me on [LinkedIn](https://www.linkedin.com/in/lmahial/) and check out my [LinkedIn post](https://www.linkedin.com/posts/lmahial_excel-erate-your-sales-analysis-from-raw-activity-7247457177928437760-dcgO?utm_source=share&utm_medium=member_desktop) where I shared my learning progress.
+For an in-depth breakdown of the project, check out my detailed articles:
+- [Business Analysis - Report Generation Walkthrough](/AtliQ%20Hardware%20Business%20Analysis%20Report.md)
+- [P&L Fundamentals](/P&L%20Fundamentals%20-%20Your%20Essential%20Guide.md)
+- [My Excel Notes](/my_excel_notes.md)
 
 
-## Blog Post
+---
 
-For an in-depth breakdown of the project, check out my detailed articles [Excel-erate Your Sales Analysis](https://digitndreams.hashnode.dev/excel-erate-your-sales-analysis-from-raw-data-to-actionable-insights) and [Excel-erate Your Finance Analysis](https://digitndreams.hashnode.dev/excel-erate-your-finance-analysis-from-sales-to-pl), where I cover the challenges, data modeling techniques, and key visuals used to bring this dashboard to life.
-
-©2024 The Data Diary
+©2025 Limesh Mahial
