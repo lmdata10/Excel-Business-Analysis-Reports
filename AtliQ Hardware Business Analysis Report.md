@@ -113,18 +113,23 @@ The business owner requested a market vs target report. Here's how to incorporat
 To round off our analysis, let's answer some crucial business questions:
 
 1. **Top 10 Products:** Based on percentage increase in net sales from 2020 to 2021
+
 	![](/Assets/7-atliq-insights1.png)
     
 2. **Division Report:** Net sales data for 2020 and 2021 with growth percentage
+
     ![](/Assets/8-atliq-insights1.png)
 
 3. **Quantity Analysis:** Top 5 and bottom 5 products by quantity sold
+
 	![](/Assets/9-atliq-insights3.png)
     
 4. **New Products:** Products with 0% in the "21 vs 20" column (new in 2021)
+
 	![](/Assets/10-atliq-insights4.png)    
     
 5. **Top 5 Countries:** By net sales in 2021
+
     ![](/Assets/11-atliq-insights5.png)
 
 ---
@@ -156,12 +161,15 @@ Building on the sales analysis foundation, this section explores financial analy
     * Updated the source of `fact_sales_monthly` to `=#"finance ref"`
     * Cleaned up unnecessary steps (source, navigation, and imported CSV) steps!
     * Renamed our updated table to `fact_sales_monthly_with_cost`
+    
     ![](/Assets/12-atliq-financial1.png)
 
 5. Organize queries for clarity
+
     ![](/Assets/13-atliq-financial12.png)
 
 6. Checked our data model, and voilà! `freight_cost` and `manufacturing_cost` are now in the house.
+    
     ![](/Assets/14-atliq-financial3.png)
 
 
@@ -185,6 +193,7 @@ Building on the sales analysis foundation, this section explores financial analy
 
 Some humour to support our Old School Excel Formulas (Skipping DAX) 
     *Me: Spends 1 week working on DAX*
+    
     ![](/Assets/15-atliq-dax-meme.jpeg)
 
 6. Apply conditional formatting with three-color scales and data bars
@@ -205,10 +214,14 @@ Did you know that fiscal years can be different from calendar years? At AtliQ, t
 2. Sort our months by `fy_month_no` to keep everything in fiscal order.
 
 3. Create P&L reports for FY 2019, 2020, and 2021.
+    
     ![](/Assets/17-atliq-P&L-fiscal_months.png)
 
 **Check out this beauty - our P&L by Quarters report:**
-	![](/Assets/18-atliq-P&L-fiscal_quarter.png)
+	
+![](/Assets/18-atliq-P&L-fiscal_quarter.png)
+
+
 ### Additional Reports
 
 **P&L for Markets (Countries):** Analyze financial performance across different geographical markets.
